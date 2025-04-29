@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 17:43:19 by rpontici          #+#    #+#             */
-/*   Updated: 2025/04/28 17:21:57 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/29 18:46:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,38 +65,40 @@ t_node	**ft_new_nums(int argc, char **argv)
 	return (nums);
 }
 
-#include "ft_push_swap.h"
-
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-    t_node  *a;
-    t_node  *b;
-    int     size;
+	t_node	*a;
+	t_node	*b;
+	int		size;
 
-    b = NULL;
-    if (argc < 2)
-        return (0);
-    if (!parse_arguments(argc, argv, &a))
-    {
-        ft_printf("Error\n");
-        return (0);
-    }
-    if (is_sorted(a))
-    {
-        free_list(a);
-        return (0);
-    }
-    size = ft_list_size(a);
-    if (size == 2)
-        sort_two(&a);
-    else if (size == 3)
-        sort_three(&a);
-    else
-    {
-        normalize_list(&a);
-        chunk_sort(&a, &b);
-    }
-    free_list(a);
-    return (0);
+	b = NULL;
+	if (argc < 2)
+		return (0);
+	if (!parse_arguments(argc, argv, &a))
+	{
+		write(2, "Error\n", 6);
+		return (1);
+	}
+	size = ft_list_size(a);
+	if (size == 1 || is_sorted(a))
+	{
+		free_list(a);
+		return (0);
+	}
+	if (size == 2)
+		sort_two(&a);
+	else if (size == 3)
+	{
+		sort_three(&a);
+		sort_three_continue(&a);
+	}
+	else if (size <= 5)
+		sort_four_five(&a, &b, size);
+	else
+	{
+		normalize_list(&a);
+		chunk_sort(&a, &b);
+	}
+	free_list(a);
+	return (0);
 }
-

@@ -46,6 +46,8 @@ int		create_list_from_numbers(int *numbers, int count, t_node **a);
 /* Algoritmi di ordinamento */
 void	sort_two(t_node **a);
 void	sort_three(t_node **a);
+void	sort_three_continue(t_node **a);
+void	sort_four_five(t_node **a, t_node **b, int size);
 void	chunk_sort(t_node **a, t_node **b);
 void	normalize_list(t_node **a);
 
@@ -62,9 +64,11 @@ t_node	*ft_new_num(int num);
 int		ft_list_size(t_node *lst);
 void	free_list(t_node *lst);
 
-/* Utility per chunk sort */
+/* Utility per algoritmi di ordinamento */
 int		find_position(t_node *lst, int value);
 int		find_max(t_node *lst);
+int		find_min_position(t_node *a);
+void	rotate_to_min(t_node **a, int min_pos, int size);
 void	push_chunks(t_node **a, t_node **b, int c_size, int num_chunks);
 void	rotate_b(t_node **b, int count, int use_rrx);
 void	pull_chunks(t_node **a, t_node **b);

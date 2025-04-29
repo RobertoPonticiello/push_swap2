@@ -38,17 +38,17 @@ void	push_chunks(t_node **a, t_node **b, int c_size, int num_chunks)
 		if (((*a)->num) < c_chunk * c_size)
 		{
 			ft_px(b, a);
-			ft_printf("pb\n");
+			write(1, "pb\n", 3);
 			if ((*b) && ((*b)->num < (c_chunk * c_size) - (c_size / 2)))
 			{
 				ft_rx(b);
-				ft_printf("rb\n");
+				write(1, "rb\n", 3);
 			}
 		}
 		else
 		{
 			ft_rx(a);
-			ft_printf("ra\n");
+			write(1, "ra\n", 3);
 		}
 		list_b = ft_list_size(*b);
 		if (list_b >= c_chunk * c_size && c_chunk < num_chunks)
@@ -66,12 +66,12 @@ void	rotate_b(t_node **b, int count, int use_rrx)
 		if (use_rrx)
 		{
 			ft_rrx(b);
-			ft_printf("rrb\n");
+			write(1, "rrb\n", 4);
 		}
 		else
 		{
 			ft_rx(b);
-			ft_printf("rb\n");
+			write(1, "rb\n", 3);
 		}
 		i = i + 1;
 	}
@@ -93,7 +93,7 @@ void	pull_chunks(t_node **a, t_node **b)
 		else
 			rotate_b(b, size_b - pos, 1);
 		ft_px(a, b);
-		ft_printf("pa\n");
+		write(1, "pa\n", 3);
 	}
 }
 
