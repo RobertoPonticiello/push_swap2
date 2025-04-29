@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_push_swap.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpontici <rpontici@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 17:43:19 by rpontici          #+#    #+#             */
-/*   Updated: 2025/04/29 18:46:48 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/29 20:24:04 by rpontici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,6 @@ int	ft_check_duplicate(int argc, char **argv)
 	return (0);
 }
 
-t_node	*ft_new_num(int num)
-{
-	t_node	*new_node;
-
-	new_node = (t_node *)malloc(sizeof(t_node));
-	if (!new_node)
-		return (NULL);
-	new_node->num = num;
-	new_node->next = NULL;
-	return (new_node);
-}
-
 t_node	**ft_new_nums(int argc, char **argv)
 {
 	t_node	**nums;
@@ -65,6 +53,39 @@ t_node	**ft_new_nums(int argc, char **argv)
 	return (nums);
 }
 
+int	init_and_validate(int argc, char **argv, t_node **a)
+{
+	if (!parse_arguments(argc, argv, a))
+	{
+		write(2, "Error\n", 6);
+		return (0);
+	}
+	if (ft_list_size(*a) == 1 || is_sorted(*a))
+	{
+		free_list(*a);
+		return (0);
+	}
+	return (1);
+}
+
+void	apply_sorting_algorithm(t_node **a, t_node **b, int size)
+{
+	if (size == 2)
+		sort_two(a);
+	else if (size == 3)
+	{
+		sort_three(a);
+		sort_three_continue(a);
+	}
+	else if (size <= 5)
+		sort_four_five(a, b, size);
+	else
+	{
+		normalize_list(a);
+		chunk_sort(a, b);
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_node	*a;
@@ -74,31 +95,10 @@ int	main(int argc, char **argv)
 	b = NULL;
 	if (argc < 2)
 		return (0);
-	if (!parse_arguments(argc, argv, &a))
-	{
-		write(2, "Error\n", 6);
-		return (1);
-	}
-	size = ft_list_size(a);
-	if (size == 1 || is_sorted(a))
-	{
-		free_list(a);
+	if (!init_and_validate(argc, argv, &a))
 		return (0);
-	}
-	if (size == 2)
-		sort_two(&a);
-	else if (size == 3)
-	{
-		sort_three(&a);
-		sort_three_continue(&a);
-	}
-	else if (size <= 5)
-		sort_four_five(&a, &b, size);
-	else
-	{
-		normalize_list(&a);
-		chunk_sort(&a, &b);
-	}
+	size = ft_list_size(a);
+	apply_sorting_algorithm(&a, &b, size);
 	free_list(a);
 	return (0);
 }

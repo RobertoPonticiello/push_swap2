@@ -34,7 +34,8 @@ int		is_sorted(t_node *lst);
 
 /* Utility stringhe */
 char	**ft_split(char const *s, char c);
-char	**ft_split_continue(char const *s, char c, char **result, int word_count);
+char	**ft_split_continue(char const *s, char c,
+			char **result, int word_count);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	free_split(char **split);
 
@@ -42,6 +43,13 @@ void	free_split(char **split);
 int		parse_arguments(int argc, char **argv, t_node **a);
 int		validate_and_convert(char **split, int *numbers, int count);
 int		create_list_from_numbers(int *numbers, int count, t_node **a);
+int		process_split_args(char **split, t_node **a);
+int		process_direct_args(int argc, char **argv, t_node **a);
+int		validate_direct_args(int argc, char **argv, int *numbers);
+
+/* Funzioni del main */
+int		init_and_validate(int argc, char **argv, t_node **a);
+void	apply_sorting_algorithm(t_node **a, t_node **b, int size);
 
 /* Algoritmi di ordinamento */
 void	sort_two(t_node **a);
